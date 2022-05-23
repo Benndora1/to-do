@@ -6,9 +6,15 @@ from .forms import *
 
 # Create your views here.
 def index(request):
+
+    # get all tasks
     tasks = Task.objects.all()
+
+
     form = TaskForm()
 
+
+    # Add data to the form
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
@@ -21,3 +27,27 @@ def index(request):
     }
 
     return render(request, 'tasks/list.html', context)
+
+
+def updateTask(request, pk):
+
+    task = Task.objects.get(id=pk)
+
+    form = TaskForm(instance=task)
+
+
+    # UPDATE DATA
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+        return redirect('/')
+
+    context = {
+        'form': form,
+    }
+
+
+
+
+    return render(request, 'tasks/update_task.html', context)

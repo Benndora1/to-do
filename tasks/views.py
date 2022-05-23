@@ -52,6 +52,7 @@ def updateTask(request, pk):
     return render(request, 'tasks/update_task.html', context)
 
 
+# delete data
 def deleteTask(request, pk):
     item = Task.objects.get(id=pk)
 
